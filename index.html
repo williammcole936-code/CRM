@@ -27,7 +27,7 @@ input,select,textarea{width:100%;background:#0b1423;border:1px solid #2b3b53;bor
         <div><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Enter your password"></div>
         <button id="loginButton" type="submit">Sign in</button>
       </form>
-      <p class="footer-note">Accounts are created by your administrator in Supabase. Public sign-up is disabled.</p>
+      <p class="footer-note">Create an account here. New accounts receive Team Lead access by default.</p>
       <div id="configWarning" class="notice error hidden" style="margin-top:15px"></div>
     </div>
   </section>
@@ -38,9 +38,8 @@ input,select,textarea{width:100%;background:#0b1423;border:1px solid #2b3b53;bor
 <script>
 (() => {
   // Paste your Supabase Project URL and publishable/anon key here.
-  const SUPABASE_URL = "https://smbhrlosoeuwztajimgh.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_0e-nyjnGN4jrj8w7jEkGUw_yY1XlCdp
-SHABLE_KEY=sb_publishable_0e-nyjnGN4jrj8w7jEkGUw_yY1XlCdp";
+  const SUPABASE_URL = "PASTE_SUPABASE_URL_HERE";
+  const SUPABASE_ANON_KEY = "PASTE_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
 
   const app = document.getElementById('app');
   const modalRoot = document.getElementById('modalRoot');
@@ -62,25 +61,60 @@ SHABLE_KEY=sb_publishable_0e-nyjnGN4jrj8w7jEkGUw_yY1XlCdp";
   function configReady() {
     return SUPABASE_URL.startsWith('https://') && !SUPABASE_URL.includes('PASTE_') && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes('PASTE_');
   }
+  let authMode = 'login';
   function showLogin() {
+    authMode = 'login';
     app.innerHTML = `<section class="login-wrap"><div class="panel login-card">
       <div class="brand"><div class="brandmark">ID</div><div><h1>ID Vault</h1><p>Team ID management portal</p></div></div>
-      <h2>Sign in to your workspace</h2><p>Secure access for administrators and team leads.</p>
+      <h2 id="authHeading">Sign in to your workspace</h2><p id="authSubheading">Secure access for administrators and team leads.</p>
       <div id="loginMessage" class="notice hidden"></div>
-      <form id="loginForm"><div><label for="email">Email address</label><input id="email" type="email" autocomplete="username" required placeholder="you@company.com"></div>
-      <div><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Enter your password"></div>
-      <button id="loginButton" type="submit">Sign in</button></form>
-      <p class="footer-note">Accounts are created by your administrator in Supabase. Public sign-up is disabled.</p>
-      ${configReady()?'':`<div class="notice error" style="margin-top:15px">Setup required: add your Supabase Project URL and publishable/anon key near the top of index.html.</div>`}
+      <form id="loginForm">
+        <div id="nameField" class="hidden"><label for="fullName">Full name</label><input id="fullName" type="text" autocomplete="name" placeholder="Your full name"></div>
+        <div><label for="email">Email address</label><input id="email" type="email" autocomplete="username" required placeholder="you@company.com"></div>
+        <div><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"></div>
+        <button id="loginButton" type="submit">Sign in</button>
+      </form>
+      <p id="authToggleText" class="footer-note">Don't have an account? <a href="#" id="authToggle" style="color:#9bbcff">Create an account</a></p>
+      <p class="footer-note">Public sign-ups receive Team Lead access. Admin access can only be assigned by the project owner.</p>
+      ${configReady()?'':`<div class="notice error" style="margin-top:15px">Setup required: add your Supabase Project URL and publishable/anon key near the top of index.html, then redeploy.</div>`}
       </div></section>`;
-    document.getElementById('loginForm').addEventListener('submit', login);
+    document.getElementById('loginForm').addEventListener('submit', handleAuth);
+    document.getElementById('authToggleText').addEventListener('click', (e) => {
+      if (e.target.id !== 'authToggle') return;
+      e.preventDefault();
+      authMode = authMode === 'login' ? 'signup' : 'login';
+      const signup = authMode === 'signup';
+      document.getElementById('nameField').classList.toggle('hidden', !signup);
+      document.getElementById('fullName').required = signup;
+      document.getElementById('loginButton').textContent = signup ? 'Create account' : 'Sign in';
+      document.getElementById('authHeading').textContent = signup ? 'Create your account' : 'Sign in to your workspace';
+      document.getElementById('authSubheading').textContent = signup ? 'Register as a Team Lead to access the portal.' : 'Secure access for administrators and team leads.';
+      document.getElementById('loginMessage').className = 'notice hidden';
+      document.getElementById('authToggleText').innerHTML = signup
+        ? 'Already have an account? <a href="#" id="authToggle" style="color:#9bbcff">Sign in</a>'
+        : `Don\'t have an account? <a href="#" id="authToggle" style="color:#9bbcff">Create an account</a>`;
+    });
   }
-  async function login(e) {
+  async function handleAuth(e) {
     e.preventDefault();
-    if (!configReady() || !db) { showLoginMessage('Add the Supabase URL and publishable/anon key in index.html first.'); return; }
-    const button = document.getElementById('loginButton'); button.disabled = true; button.textContent='Signing in…';
-    const {error} = await db.auth.signInWithPassword({email:document.getElementById('email').value.trim(), password:document.getElementById('password').value});
-    button.disabled=false; button.textContent='Sign in';
+    if (!configReady() || !db) { showLoginMessage('Setup required: add your Supabase Project URL and publishable/anon key in index.html, then redeploy.'); return; }
+    const button = document.getElementById('loginButton');
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    button.disabled = true;
+    button.textContent = authMode === 'signup' ? 'Creating account…' : 'Signing in…';
+    if (authMode === 'signup') {
+      const fullName = document.getElementById('fullName').value.trim();
+      const { error } = await db.auth.signUp({ email, password, options: { data: { full_name: fullName } } });
+      button.disabled = false;
+      button.textContent = 'Create account';
+      if (error) { showLoginMessage(error.message); return; }
+      showLoginMessage('Account request created. If email confirmation is enabled, confirm your email before signing in. Your role is Team Lead.', false);
+      return;
+    }
+    const { error } = await db.auth.signInWithPassword({ email, password });
+    button.disabled = false;
+    button.textContent = 'Sign in';
     if (error) showLoginMessage(error.message);
     else await loadSession();
   }

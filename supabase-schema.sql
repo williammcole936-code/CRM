@@ -137,6 +137,32 @@ create trigger id_entries_fill_team_lead_name
 before insert or update of created_by on public.id_entries
 for each row execute function public.fill_team_lead_name();
 
+
+-- Automatically create a Team Lead profile for every public sign-up.
+-- Public clients cannot choose or update their role; role always defaults to team_lead.
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.profiles (id, full_name, role)
+  values (
+    new.id,
+    coalesce(new.raw_user_meta_data ->> 'full_name', ''),
+    'team_lead'
+  )
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+after insert on auth.users
+for each row execute procedure public.handle_new_user();
+
 -- Set up users:
 -- 1) Supabase Dashboard > Authentication > Users > Add user.
 -- 2) Copy the user's UUID.
