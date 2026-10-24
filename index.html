@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ID Vault — Team Portal</title>
+<meta name="theme-color" content="#101827">
+<style>
+:root{--bg:#0b1220;--panel:#111c2e;--panel2:#162338;--line:#26364d;--text:#eaf0fa;--muted:#9aabc2;--accent:#77a7ff;--accent2:#9c8cff;--good:#4ade80;--danger:#fb7185;--radius:18px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#1c2b49 0%,transparent 45%),var(--bg);color:var(--text);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#08111f;font-weight:750}button.secondary{background:#202f45;color:var(--text);border:1px solid var(--line)}button.danger{background:#4a2030;color:#ffdbe2;border:1px solid #713449}button:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{width:100%;background:#0b1423;border:1px solid #2b3b53;border-radius:11px;padding:12px;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #77a7ff20}label{display:block;color:#b6c4d8;font-size:13px;font-weight:650;margin:0 0 7px}.field{min-width:0}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fields .wide{grid-column:1/-1}
+.shell{min-height:100vh;display:grid;grid-template-columns:248px 1fr}.sidebar{padding:25px 16px;border-right:1px solid var(--line);background:#0d1727d9;display:flex;flex-direction:column;gap:22px}.brand{display:flex;gap:12px;align-items:center;padding:0 8px}.brandmark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#77a7ff,#9c8cff);display:grid;place-items:center;color:#101827;font-size:21px;font-weight:900}.brand h1{font-size:17px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.nav{display:grid;gap:7px}.nav button{display:flex;align-items:center;gap:11px;text-align:left;background:transparent;color:#aebdd1;border:1px solid transparent;font-weight:650}.nav button.active,.nav button:hover{background:#1b2a40;border-color:#2d405c;color:#fff}.side-bottom{margin-top:auto}.userbox{padding:13px;border:1px solid var(--line);border-radius:15px;background:#111c2e}.userbox strong{display:block;overflow-wrap:anywhere}.userbox small{color:var(--muted)}main{min-width:0;padding:28px clamp(16px,3vw,42px) 44px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}.eyebrow{color:var(--accent);text-transform:uppercase;font-size:11px;letter-spacing:.14em;font-weight:800}.topbar h2{margin:5px 0 0;font-size:clamp(24px,3vw,32px);letter-spacing:-.04em}.top-actions{display:flex;gap:9px;align-items:center}.panel{background:linear-gradient(145deg,#142035,#101a2b);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 14px 40px #00000018}.panel h3{margin:0 0 15px;font-size:16px}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}.stat{padding:18px}.stat .label{font-size:12px;color:var(--muted)}.stat .num{font-size:30px;letter-spacing:-.04em;font-weight:800;margin-top:5px}.stat .hint{font-size:12px;color:#91a4be;margin-top:5px}.layout{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(0,1.5fr);gap:18px;align-items:start}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.toolbar .search{flex:1;min-width:190px}.toolbar select{width:auto;min-width:145px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:13px}table{border-collapse:collapse;width:100%;min-width:780px}th,td{text-align:left;padding:12px 13px;border-bottom:1px solid #24344a;vertical-align:top}th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#9fb0c8;background:#111d30;position:sticky;top:0}td{font-size:13px;color:#dce6f5}tbody tr:hover{background:#ffffff05}tbody tr:last-child td{border-bottom:0}.pill{display:inline-flex;padding:4px 8px;border:1px solid #344761;border-radius:999px;color:#b8c8dd;font-size:11px;white-space:nowrap}.muted{color:var(--muted)}.empty{padding:30px;text-align:center;color:var(--muted)}.entry-list{display:grid;gap:10px}.entry-card{border:1px solid var(--line);background:#0e192a;border-radius:13px;padding:14px}.entry-card .entry-head{display:flex;justify-content:space-between;gap:12px;align-items:start}.entry-card strong{overflow-wrap:anywhere}.entry-card p{margin:8px 0;color:#bdcbe0;font-size:13px}.entry-card .actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.entry-card .actions button{padding:7px 10px;font-size:12px}.hidden{display:none!important}.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px}.login-card{width:min(100%,460px);padding:30px}.login-card .brand{padding:0;margin-bottom:28px}.login-card h2{font-size:27px;letter-spacing:-.04em;margin:0 0 8px}.login-card>p{color:var(--muted);margin:0 0 22px}.login-card form{display:grid;gap:15px}.notice{padding:12px 14px;border:1px solid #2d4668;background:#14263e;color:#c9ddff;border-radius:12px;font-size:13px}.notice.error{border-color:#713449;background:#321b28;color:#ffd4df}.notice.success{border-color:#245e43;background:#142d25;color:#b7f7d0}.small{font-size:12px}.modal-backdrop{position:fixed;inset:0;background:#030712bf;display:grid;place-items:center;padding:16px;z-index:5}.modal{width:min(100%,650px);max-height:92vh;overflow:auto;background:#111c2e;border:1px solid #33445c;border-radius:20px;padding:22px;box-shadow:0 24px 90px #0009}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.modal-head h3{margin:0}.modal form{display:grid;gap:15px}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:5px}.toast{position:fixed;right:20px;bottom:20px;z-index:10;max-width:360px;padding:13px 16px;border-radius:12px;background:#162b40;border:1px solid #395777;box-shadow:0 10px 40px #0008}.footer-note{color:#74869f;font-size:11px;margin-top:16px}
+@media(max-width:980px){.shell{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line);padding:14px;gap:13px}.brand{padding:0 3px}.nav{grid-template-columns:repeat(3,minmax(0,1fr))}.nav button{justify-content:center;padding:10px 6px;font-size:12px}.side-bottom{display:none}.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}main{padding-top:20px}}
+@media(max-width:600px){.fields{grid-template-columns:1fr}.fields .wide{grid-column:auto}.stats{gap:8px}.stat{padding:13px}.stat .num{font-size:24px}.topbar{align-items:flex-start;flex-direction:column}.top-actions{width:100%}.top-actions button{flex:1}.nav{grid-template-columns:repeat(3,minmax(0,1fr))}.panel{padding:15px}}
+</style>
+</head>
+<body>
+<div id="app">
+  <section class="login-wrap">
+    <div class="panel login-card">
+      <div class="brand"><div class="brandmark">ID</div><div><h1>ID Vault</h1><p>Team ID management portal</p></div></div>
+      <h2>Sign in to your workspace</h2><p>Secure access for administrators and team leads.</p>
+      <div id="loginMessage" class="notice hidden"></div>
+      <form id="loginForm">
+        <div><label for="email">Email address</label><input id="email" type="email" autocomplete="username" required placeholder="you@company.com"></div>
+        <div><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Enter your password"></div>
+        <button id="loginButton" type="submit">Sign in</button>
+      </form>
+      <p class="footer-note">Accounts are created by your administrator in Supabase. Public sign-up is disabled.</p>
+      <div id="configWarning" class="notice error hidden" style="margin-top:15px"></div>
+    </div>
+  </section>
+</div>
+<div id="modalRoot"></div>
+<div id="toastRoot"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+  // Paste your Supabase Project URL and publishable/anon key here.
+  const SUPABASE_URL = "https://smbhrlosoeuwztajimgh.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_0e-nyjnGN4jrj8w7jEkGUw_yY1XlCdp
+SHABLE_KEY=sb_publishable_0e-nyjnGN4jrj8w7jEkGUw_yY1XlCdp";
+
+  const app = document.getElementById('app');
+  const modalRoot = document.getElementById('modalRoot');
+  const toastRoot = document.getElementById('toastRoot');
+  let db = null, currentUser = null, profile = null, entries = [], activeView = 'entries', editingEntry = null;
+
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const dateText = v => v ? new Date(v).toLocaleString() : '—';
+  const isAdmin = () => profile?.role === 'admin';
+  function toast(message, error=false) {
+    toastRoot.innerHTML = `<div class="toast">${error ? '⚠ ' : '✓ '}${esc(message)}</div>`;
+    setTimeout(() => { toastRoot.innerHTML=''; }, 3600);
+  }
+  function showLoginMessage(message, error=true) {
+    const el = document.getElementById('loginMessage');
+    if (!el) return;
+    el.textContent = message; el.className = 'notice' + (error ? ' error' : ' success');
+  }
+  function configReady() {
+    return SUPABASE_URL.startsWith('https://') && !SUPABASE_URL.includes('PASTE_') && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes('PASTE_');
+  }
+  function showLogin() {
+    app.innerHTML = `<section class="login-wrap"><div class="panel login-card">
+      <div class="brand"><div class="brandmark">ID</div><div><h1>ID Vault</h1><p>Team ID management portal</p></div></div>
+      <h2>Sign in to your workspace</h2><p>Secure access for administrators and team leads.</p>
+      <div id="loginMessage" class="notice hidden"></div>
+      <form id="loginForm"><div><label for="email">Email address</label><input id="email" type="email" autocomplete="username" required placeholder="you@company.com"></div>
+      <div><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Enter your password"></div>
+      <button id="loginButton" type="submit">Sign in</button></form>
+      <p class="footer-note">Accounts are created by your administrator in Supabase. Public sign-up is disabled.</p>
+      ${configReady()?'':`<div class="notice error" style="margin-top:15px">Setup required: add your Supabase Project URL and publishable/anon key near the top of index.html.</div>`}
+      </div></section>`;
+    document.getElementById('loginForm').addEventListener('submit', login);
+  }
+  async function login(e) {
+    e.preventDefault();
+    if (!configReady() || !db) { showLoginMessage('Add the Supabase URL and publishable/anon key in index.html first.'); return; }
+    const button = document.getElementById('loginButton'); button.disabled = true; button.textContent='Signing in…';
+    const {error} = await db.auth.signInWithPassword({email:document.getElementById('email').value.trim(), password:document.getElementById('password').value});
+    button.disabled=false; button.textContent='Sign in';
+    if (error) showLoginMessage(error.message);
+    else await loadSession();
+  }
+  function renderShell() {
+    app.innerHTML = `<div class="shell">
+      <aside class="sidebar">
+        <div class="brand"><div class="brandmark">ID</div><div><h1>ID Vault</h1><p>Team management</p></div></div>
+        <nav class="nav">
+          <button data-view="entries" class="${activeView==='entries'?'active':''}">▤ &nbsp; Entries</button>
+          ${isAdmin()?`<button data-view="team" class="${activeView==='team'?'active':''}">♙ &nbsp; Team</button>`:''}
+        </nav>
+        <div class="side-bottom"><div class="userbox"><strong>${esc(profile?.full_name || currentUser?.email || 'User')}</strong><small>${isAdmin()?'Administrator':'Team Lead'}<br>${esc(currentUser?.email||'')}</small><div style="margin-top:12px"><button class="secondary" id="signOut" style="width:100%">Sign out</button></div></div></div>
+      </aside>
+      <main><header class="topbar"><div><div class="eyebrow">${isAdmin()?'Admin workspace':'Team workspace'}</div><h2 id="pageTitle">${activeView==='team'?'Team members':'ID entries'}</h2></div>
+        <div class="top-actions"><button class="secondary" id="refreshBtn">↻ Refresh</button><button id="newEntryBtn">＋ Add entry</button></div>
+      </header>
+      <section id="content"></section>
+      <div class="footer-note">Access is controlled by Supabase row-level security. Do not share your login details.</div>
+      </main></div>`;
+    app.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{activeView=b.dataset.view;renderShell();renderView();}));
+    document.getElementById('signOut').addEventListener('click', async()=>{await db.auth.signOut();currentUser=null;profile=null;showLogin();});
+    document.getElementById('refreshBtn').addEventListener('click', loadData);
+    document.getElementById('newEntryBtn').addEventListener('click',()=>openEntryModal());
+    renderView();
+  }
+  async function loadSession() {
+    const {data:{session}} = await db.auth.getSession();
+    if (!session) {showLogin();return;}
+    currentUser=session.user;
+    const {data,error} = await db.from('profiles').select('id, full_name, role').eq('id',currentUser.id).single();
+    if (error || !data) {
+      await db.auth.signOut();
+      showLogin();
+      const msg=document.getElementById('loginMessage');
+      if(msg){msg.textContent='Your account profile is not set up. Ask the administrator to assign your role.';msg.className='notice error';}
+      return;
+    }
+    profile=data; activeView='entries'; renderShell(); await loadData();
+  }
+  async function loadData() {
+    const content=document.getElementById('content'); if(content) content.innerHTML='<div class="panel empty">Loading entries…</div>';
+    if (activeView==='team' && isAdmin()) { await loadTeam(); return; }
+    const {data,error}=await db.from('id_entries').select('*').order('created_at',{ascending:false});
+    if(error){if(content)content.innerHTML=`<div class="notice error">Could not load entries: ${esc(error.message)}. Check the Supabase SQL setup and RLS policies.</div>`;return;}
+    entries=data||[]; renderView();
+  }
+  function renderView() {
+    if (!document.getElementById('content')) return;
+    document.getElementById('pageTitle').textContent=activeView==='team'?'Team members':'ID entries';
+    if(activeView==='team'&&isAdmin()){loadTeam();return;}
+    const total=entries.length, today=new Date().toDateString();
+    const todayCount=entries.filter(e=>new Date(e.created_at).toDateString()===today).length;
+    const uniqueRar=new Set(entries.map(e=>e.rar_file_number)).size;
+    document.getElementById('content').innerHTML=`
+      <div class="stats">
+        <div class="panel stat"><div class="label">${isAdmin()?'Total entries':'My entries'}</div><div class="num">${total}</div><div class="hint">Saved records</div></div>
+        <div class="panel stat"><div class="label">Added today</div><div class="num">${todayCount}</div><div class="hint">Based on local time</div></div>
+        <div class="panel stat"><div class="label">RAR files</div><div class="num">${uniqueRar}</div><div class="hint">Unique file numbers</div></div>
+      </div>
+      <div class="panel"><div class="toolbar">
+        <input class="search" id="searchBox" placeholder="Search RAR number, username, UID, reason…" />
+        <select id="reasonFilter"><option value="">All reasons</option><option>Wrong password</option><option>No response</option><option>Suspended</option><option>Logged in</option><option>Other</option></select>
+        <button class="secondary" id="exportBtn">Export CSV</button>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>RAR file number</th><th>User name</th><th>UID</th><th>Password</th><th>Reason</th><th>Response</th>${isAdmin()?'<th>Team lead</th>':''}<th>Created</th><th>Actions</th></tr></thead><tbody id="entryRows"></tbody></table></div>
+      <div id="entryEmpty" class="empty hidden">No entries found. Add an entry or change your search.</div></div>`;
+    document.getElementById('searchBox').addEventListener('input',filterRows);
+    document.getElementById('reasonFilter').addEventListener('change',filterRows);
+    document.getElementById('exportBtn').addEventListener('click',exportCSV);
+    filterRows();
+  }
+  function filterRows() {
+    const q=(document.getElementById('searchBox')?.value||'').toLowerCase().trim();
+    const reason=document.getElementById('reasonFilter')?.value||'';
+    const filtered=entries.filter(e=>(!reason||e.reason===reason)&&[e.rar_file_number,e.user_name,e.uid,e.password,e.reason,e.response,e.team_lead_name].some(v=>String(v||'').toLowerCase().includes(q)));
+    const rows=document.getElementById('entryRows');
+    rows.innerHTML=filtered.map(e=>`<tr>
+      <td><strong>${esc(e.rar_file_number)}</strong></td><td>${esc(e.user_name)}</td><td>${esc(e.uid)}</td><td>${esc(e.password)}</td><td>${esc(e.reason||'—')}</td><td>${esc(e.response||'—')}</td>
+      ${isAdmin()?`<td>${esc(e.team_lead_name||'—')}</td>`:''}<td>${esc(dateText(e.created_at))}</td>
+      <td><div style="display:flex;gap:6px">${(isAdmin()||e.created_by===currentUser.id)?`<button class="secondary" data-edit="${e.id}" style="padding:6px 9px">Edit</button>`:''}${isAdmin()?`<button class="danger" data-delete="${e.id}" style="padding:6px 9px">Delete</button>`:''}</div></td></tr>`).join('');
+    document.getElementById('entryEmpty').classList.toggle('hidden',filtered.length>0);
+    rows.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEntryModal(entries.find(e=>e.id===b.dataset.edit))));
+    rows.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>deleteEntry(b.dataset.delete)));
+  }
+  function openEntryModal(entry=null) {
+    editingEntry=entry;
+    modalRoot.innerHTML=`<div class="modal-backdrop"><div class="modal"><div class="modal-head"><h3>${entry?'Edit entry':'Add new ID entry'}</h3><button class="secondary" id="closeModal">✕</button></div>
+      <form id="entryForm">
+        <div class="fields">
+          <div class="field wide"><label for="rar">RAR File Number *</label><input id="rar" required value="${esc(entry?.rar_file_number||'')}" placeholder="Enter RAR file number" autocomplete="off"></div>
+          <div class="field"><label for="username">User name</label><input id="username" value="${esc(entry?.user_name||'')}" placeholder="Account username"></div>
+          <div class="field"><label for="uid">UID</label><input id="uid" value="${esc(entry?.uid||'')}" placeholder="ID number"></div>
+          <div class="field"><label for="entrypass">Password</label><input id="entrypass" value="${esc(entry?.password||'')}" placeholder="Account password" autocomplete="off"></div>
+          <div class="field"><label for="reason">Reason</label><select id="reason"><option value="">Select reason</option>${['Wrong password','No response','Suspended','Logged in','Marketplace issue','Other'].map(r=>`<option ${entry?.reason===r?'selected':''}>${r}</option>`).join('')}</select></div>
+          <div class="field wide"><label for="response">Response</label><input id="response" value="${esc(entry?.response||'')}" placeholder="e.g. 0 response, 1 response, 2 response"></div>
+        </div>
+        <div id="formMessage" class="notice hidden"></div>
+        <div class="modal-actions"><button type="button" class="secondary" id="cancelModal">Cancel</button><button type="submit" id="saveEntry">Save entry</button></div>
+      </form>
+    </div></div>`;
+    const close=()=>{modalRoot.innerHTML='';editingEntry=null;};
+    document.getElementById('closeModal').onclick=close;document.getElementById('cancelModal').onclick=close;
+    modalRoot.querySelector('.modal-backdrop').addEventListener('click',e=>{if(e.target.classList.contains('modal-backdrop'))close();});
+    document.getElementById('rar').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('username').focus();}});
+    document.getElementById('entryForm').addEventListener('submit',saveEntry);
+    document.getElementById('rar').focus();
+  }
+  async function saveEntry(e) {
+    e.preventDefault();
+    const btn=document.getElementById('saveEntry');btn.disabled=true;btn.textContent='Saving…';
+    const payload={rar_file_number:document.getElementById('rar').value.trim(),user_name:document.getElementById('username').value.trim(),uid:document.getElementById('uid').value.trim(),password:document.getElementById('entrypass').value,reason:document.getElementById('reason').value,response:document.getElementById('response').value.trim()};
+    let result;
+    if(editingEntry) result=await db.from('id_entries').update(payload).eq('id',editingEntry.id).select().single();
+    else result=await db.from('id_entries').insert({...payload,created_by:currentUser.id}).select().single();
+    if(result.error){const m=document.getElementById('formMessage');m.textContent=result.error.message;m.className='notice error';btn.disabled=false;btn.textContent='Save entry';return;}
+    modalRoot.innerHTML='';toast(editingEntry?'Entry updated':'Entry saved');editingEntry=null;await loadData();
+  }
+  async function deleteEntry(id) {
+    if(!confirm('Delete this entry permanently?'))return;
+    const {error}=await db.from('id_entries').delete().eq('id',id);
+    if(error)toast(error.message,true);else{toast('Entry deleted');await loadData();}
+  }
+  function exportCSV() {
+    const headers=['RAR File Number','User Name','UID','Password','Reason','Response','Team Lead','Created At'];
+    const rows=entries.map(e=>[e.rar_file_number,e.user_name,e.uid,e.password,e.reason,e.response,e.team_lead_name,e.created_at]);
+    const csv=[headers,...rows].map(row=>row.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\r\n');
+    const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download='id-entries.csv';a.click();URL.revokeObjectURL(url);
+  }
+  async function loadTeam() {
+    const content=document.getElementById('content');if(!content)return;
+    content.innerHTML='<div class="panel empty">Loading team…</div>';
+    const {data,error}=await db.from('profiles').select('id,full_name,role,created_at').order('created_at',{ascending:false});
+    if(error){content.innerHTML=`<div class="notice error">Could not load team: ${esc(error.message)}</div>`;return;}
+    content.innerHTML=`<div class="panel"><h3>Team members</h3><p class="muted small">Create users in Supabase Authentication, then add their profile row using the SQL instructions. Only admins can see this directory.</p><div class="table-wrap"><table style="min-width:500px"><thead><tr><th>Name</th><th>Role</th><th>User ID</th><th>Joined</th></tr></thead><tbody>${(data||[]).map(p=>`<tr><td>${esc(p.full_name||'—')}</td><td><span class="pill">${esc(p.role)}</span></td><td>${esc(p.id)}</td><td>${esc(dateText(p.created_at))}</td></tr>`).join('')}</tbody></table></div></div>`;
+  }
+  async function init() {
+    if(!configReady()){showLogin();return;}
+    if(!window.supabase){showLogin();showLoginMessage('Could not load Supabase client. Check your internet connection.');return;}
+    db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    db.auth.onAuthStateChange(async(event,session)=>{if(event==='SIGNED_OUT'){currentUser=null;profile=null;showLogin();}else if(event==='SIGNED_IN'&&session){await loadSession();}});
+    await loadSession();
+  }
+  init();
+})();
+</script>
+</body>
+</html>
